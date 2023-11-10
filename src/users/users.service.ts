@@ -6,7 +6,7 @@ import {
   synchronize,
 } from 'nestjs-objection/dist';
 import { User } from './models/users.model';
-import { CreateUserRequestDto } from './requestDto/create-user-request-dto';
+import { CreateUserRequestDto } from './dto/requestDto/create-user-request-dto';
 
 @Injectable()
 export class UsersService {
@@ -24,5 +24,15 @@ export class UsersService {
     await synchronize(User);
     const user = await this.userModel.query().findById(id);
     return user;
+  }
+
+  async getAllUsers() {
+    const users = await this.userModel.query().select();
+    return users;
+  }
+
+  async deleteUser(id: number) {
+    await this.userModel.query().deleteById(id);
+    return {};
   }
 }
