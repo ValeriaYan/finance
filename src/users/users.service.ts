@@ -35,4 +35,13 @@ export class UsersService {
     await this.userModel.query().deleteById(id);
     return {};
   }
+
+  async getUserByEmail(email: string) {
+    const user = await this.userModel
+      .query()
+      .select()
+      .where('email', '=', email);
+    console.log(user);
+    return user;
+  }
 }

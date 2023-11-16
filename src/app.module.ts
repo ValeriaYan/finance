@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { ObjectionModule, Model } from 'nestjs-objection';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ConfigModule } from '@nestjs/config';
       },
     }),
     UsersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],

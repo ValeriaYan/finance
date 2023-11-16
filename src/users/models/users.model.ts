@@ -10,10 +10,10 @@ export class User extends Model {
   @ApiProperty({
     example: 'Ivan',
     description: 'user name',
-    default: 'your name',
+    default: 'user',
   })
   @Column({ type: columnTypes.string })
-  name: string;
+  name: string = 'user';
 
   @ApiProperty({ example: 'ivan.ivanov@mail.ru', description: 'user email' })
   @Column({ type: columnTypes.string, unique: true, nullable: false })
@@ -21,5 +21,5 @@ export class User extends Model {
 
   @ApiProperty({ example: '123456', description: 'user password' })
   @Column({ type: columnTypes.string, nullable: false })
-  hashPassword: string;
+  password: string;
 }
