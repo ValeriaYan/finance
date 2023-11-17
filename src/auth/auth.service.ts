@@ -69,6 +69,11 @@ export class AuthService {
 
   private async validateUser(userDto: CreateUserRequestDto) {
     const user = await this.usersService.getUserByEmail(userDto.email);
+    if (!user) {
+      throw new UnauthorizedException({
+        message: 'User with this email is not registered',
+      });
+    }
     const passwordEquals = await bcrypt.compare(
       userDto.password,
       user.password,
