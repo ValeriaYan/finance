@@ -42,6 +42,11 @@ export class UsersService {
       .select()
       .where('email', '=', email);
     console.log(user);
-    return user;
+    return user[0];
+  }
+
+  async saveRefreshToken(id: number, token: string) {
+    await this.userModel.query().findById(id).patch({ token: token });
+    return token;
   }
 }

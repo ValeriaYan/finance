@@ -8,6 +8,13 @@ export class User extends Model {
   id: number;
 
   @ApiProperty({
+    example: '38974b938733n3b3498b74',
+    description: 'refresh token for user',
+  })
+  @Column({ type: columnTypes.string, unique: true, nullable: true })
+  token: string;
+
+  @ApiProperty({
     example: 'Ivan',
     description: 'user name',
     default: 'user',
