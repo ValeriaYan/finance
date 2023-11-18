@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   HttpException,
   HttpStatus,
   Injectable,
@@ -70,7 +71,7 @@ export class AuthService {
   private async validateUser(userDto: CreateUserRequestDto) {
     const user = await this.usersService.getUserByEmail(userDto.email);
     if (!user) {
-      throw new UnauthorizedException({
+      throw new BadRequestException({
         message: 'User with this email is not registered',
       });
     }

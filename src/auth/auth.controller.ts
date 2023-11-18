@@ -1,8 +1,9 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiBasicAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateUserRequestDto } from 'src/users/dto/requestDto/create-user-request-dto';
 import { AuthResponseDto } from './dto/responseDto/auth-response-dto';
+import { Response } from 'express';
 
 @ApiTags('Auth')
 @ApiBasicAuth()
@@ -16,8 +17,16 @@ export class AuthController {
     description: 'Successful operation',
   })
   @Post('/login')
-  login(@Body() userDto: CreateUserRequestDto) {
-    return this.authService.login(userDto);
+  async login(
+    @Body() userDto: CreateUserRequestDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const userData = await this.authService.login(userDto);
+    res.cookie('refreshToken', userData.tokens.refreshToken, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+    });
+    return userData;
   }
 
   @ApiResponse({
@@ -26,7 +35,15 @@ export class AuthController {
     description: 'Successful operation',
   })
   @Post('/registration')
-  registration(@Body() userDto: CreateUserRequestDto) {
-    return this.authService.registration(userDto);
+  async registration(
+    @Body() userDto: CreateUserRequestDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const userData = await this.authService.registration(userDto);
+    res.cookie('refreshToken', userData.tokens.refreshToken, {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+    });
+    return userData;
   }
 }
