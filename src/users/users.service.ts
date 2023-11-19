@@ -37,16 +37,23 @@ export class UsersService {
   }
 
   async getUserByEmail(email: string) {
-    const user = await this.userModel
+    const users = await this.userModel
       .query()
       .select()
       .where('email', '=', email);
-    console.log(user);
-    return user[0];
+    return users[0];
   }
 
   async saveRefreshToken(id: number, token: string) {
     await this.userModel.query().findById(id).patch({ token: token });
     return token;
+  }
+
+  async getUserByToken(token: string) {
+    const users = await this.userModel
+      .query()
+      .select()
+      .where('token', '=', token);
+    return users[0];
   }
 }
