@@ -2,7 +2,7 @@ import { Body, Controller, Post, Req, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiBasicAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateUserRequestDto } from 'src/users/dto/requestDto/create-user-request-dto';
-import { AuthResponseDto } from './dto/responseDto/auth-response-dto';
+import { AuthResponseDto, Tokens } from './dto/responseDto/auth-response-dto';
 import { Response, Request } from 'express';
 
 @ApiTags('Auth')
@@ -47,6 +47,22 @@ export class AuthController {
     return userData;
   }
 
+  @ApiResponse({
+    status: 201,
+    description: 'Successful operation',
+  })
+  @Post('/logout')
+  async logout(@Res({ passthrough: true }) res: Response, @Req() req: Request) {
+    const { refreshToken } = req.cookies;
+    res.clearCookie('refreshToken');
+    return await this.authService.logout(refreshToken);
+  }
+
+  @ApiResponse({
+    status: 201,
+    type: Tokens,
+    description: 'Successful operation',
+  })
   @Post('/refresh')
   async refresh(
     @Req() req: Request,

@@ -56,4 +56,10 @@ export class UsersService {
       .where('token', '=', token);
     return users[0];
   }
+
+  async removeTokenFromUser(refreshToken: string) {
+    const user = await this.getUserByToken(refreshToken);
+    await this.userModel.query().findById(user.id).patch({ token: null });
+    return {};
+  }
 }

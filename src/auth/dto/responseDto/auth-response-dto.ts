@@ -9,7 +9,7 @@ class ProfileInfo {
   email: string;
 }
 
-class Tokens {
+export class Tokens {
   @ApiProperty({
     example:
       'sdkjfhsdkjvoeuohBOBObbboihFKNboUBjbkjBOiubIUbklNOihoUBkjbKJOIBOIBNjkbNKJBIUVIUVkjbjboibubiuvIUVUibjBOboiuBubbobjb',

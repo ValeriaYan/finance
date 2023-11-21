@@ -32,6 +32,10 @@ export class AuthService {
     };
   }
 
+  async logout(refreshToken: string) {
+    return await this.usersService.removeTokenFromUser(refreshToken);
+  }
+
   async registration(userDto: CreateUserRequestDto): Promise<AuthResponseDto> {
     const candidate = await this.usersService.getUserByEmail(userDto.email);
     if (candidate != null) {

@@ -40,7 +40,7 @@ export class TokenService {
 
   async refresh(refreshToken: string) {
     if (!refreshToken) {
-      throw new UnauthorizedException({ message: 'Wrong refreshToken' });
+      throw new UnauthorizedException({ message: 'User is not authorized' });
     }
 
     const userData = this.validateRefreshToken(refreshToken);
