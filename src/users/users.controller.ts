@@ -16,8 +16,8 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { User } from './models/users.model';
 import { JwtAuthGuard } from 'src/auth/jwt-auth-guard';
+import { UserResponseDto } from './dto/responseDto/user-response-dto';
 
 @ApiTags('Users')
 @ApiBearerAuth()
@@ -27,7 +27,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @ApiOperation({ summary: 'Create user' })
-  @ApiResponse({ status: 201, type: User })
+  @ApiResponse({ status: 201, type: UserResponseDto })
   @Post()
   create(@Body() userRequestDto: CreateUserRequestDto) {
     return this.usersService.createUser(userRequestDto);
@@ -41,7 +41,11 @@ export class UsersController {
     example: '1',
     required: true,
   })
-  @ApiResponse({ status: 200, type: User, description: 'Successful operation' })
+  @ApiResponse({
+    status: 200,
+    type: UserResponseDto,
+    description: 'Successful operation',
+  })
   @Get(':id')
   getUser(@Param() params: any) {
     return this.usersService.getUser(params.id);
@@ -64,7 +68,7 @@ export class UsersController {
   @ApiOperation({ summary: 'Get all users' })
   @ApiResponse({
     status: 200,
-    type: [User],
+    type: [UserResponseDto],
     description: 'Successful operation',
   })
   @Get()

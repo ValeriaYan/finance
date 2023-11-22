@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import {
   Connection,
   InjectConnection,
@@ -7,6 +7,7 @@ import {
 } from 'nestjs-objection/dist';
 import { User } from './models/users.model';
 import { CreateUserRequestDto } from './dto/requestDto/create-user-request-dto';
+import { UserResponseDto } from './dto/responseDto/user-response-dto';
 
 @Injectable()
 export class UsersService {
@@ -17,18 +18,38 @@ export class UsersService {
 
   async createUser(dto: CreateUserRequestDto) {
     const user = await this.userModel.query().insert(dto);
-    return user;
+    const userResponseDto: UserResponseDto = {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+    };
+    return userResponseDto;
   }
 
   async getUser(id: number) {
     await synchronize(User);
     const user = await this.userModel.query().findById(id);
-    return user;
+    if (!user) {
+      throw new BadRequestException({ message: 'User not found' });
+    }
+    const userResponseDto: UserResponseDto = {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+    };
+    return userResponseDto;
   }
 
   async getAllUsers() {
     const users = await this.userModel.query().select();
-    return users;
+    const userResponseDto = users.map((user) => {
+      return {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+      };
+    });
+    return userResponseDto;
   }
 
   async deleteUser(id: number) {
@@ -50,11 +71,19 @@ export class UsersService {
   }
 
   async getUserByToken(token: string) {
+    if (!token) {
+      throw new BadRequestException({ message: 'User is not authorize' });
+    }
     const users = await this.userModel
       .query()
       .select()
       .where('token', '=', token);
-    return users[0];
+    const userResponseDto: UserResponseDto = {
+      id: users[0].id,
+      email: users[0].email,
+      name: users[0].name,
+    };
+    return userResponseDto;
   }
 
   async removeTokenFromUser(refreshToken: string) {

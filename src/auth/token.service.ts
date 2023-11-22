@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from 'src/users/models/users.model';
+import { UserResponseDto } from 'src/users/dto/responseDto/user-response-dto';
 import { UsersService } from 'src/users/users.service';
 
 @Injectable()
@@ -10,10 +10,10 @@ export class TokenService {
     private usersService: UsersService,
   ) {}
 
-  async generateTokens(user: User) {
+  async generateTokens(user: UserResponseDto) {
     const payload = { email: user.email, id: user.id, name: user.name };
-    const accessToken = this.jwtService.sign(payload, { expiresIn: '1m' });
-    const refreshToken = this.jwtService.sign(payload, { expiresIn: '1m' });
+    const accessToken = this.jwtService.sign(payload, { expiresIn: '30m' });
+    const refreshToken = this.jwtService.sign(payload, { expiresIn: '30d' });
     return {
       accessToken,
       refreshToken,
