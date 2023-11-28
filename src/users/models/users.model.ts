@@ -1,32 +1,13 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { Column, Model, Table, columnTypes } from 'nestjs-objection';
+import { Model } from 'objection';
 
-@Table({ tableName: 'users' })
 export class User extends Model {
-  @ApiProperty({ example: '1', description: 'id' })
-  @Column({ type: columnTypes.increments, unique: true, primary: true })
   id: number;
-
-  @ApiProperty({
-    example: '38974b938733n3b3498b74',
-    description: 'refresh token for user',
-  })
-  @Column({ type: columnTypes.string, unique: true, nullable: true })
   token: string;
-
-  @ApiProperty({
-    example: 'Ivan',
-    description: 'user name',
-    default: 'user',
-  })
-  @Column({ type: columnTypes.string })
   name: string = 'user';
-
-  @ApiProperty({ example: 'ivan.ivanov@mail.ru', description: 'user email' })
-  @Column({ type: columnTypes.string, unique: true, nullable: false })
   email: string;
-
-  @ApiProperty({ example: '123456', description: 'user password' })
-  @Column({ type: columnTypes.string, nullable: false })
   password: string;
+
+  static get tableName() {
+    return 'users';
+  }
 }

@@ -56,7 +56,7 @@ export class CategoriesController {
     description: 'Successful operation',
   })
   @Get(':id')
-  getUser(@Param() params: any) {
+  getCategory(@Param() params: any) {
     console.log(params);
   }
 
@@ -70,7 +70,7 @@ export class CategoriesController {
     required: true,
   })
   @Patch(':id')
-  changeBill(
+  changeCategory(
     @Body() changeCategoryRequestDto: ChangeCategoryRequestDto,
     @Param() params: any,
   ) {
@@ -87,7 +87,7 @@ export class CategoriesController {
   })
   @ApiResponse({ status: 200 })
   @Delete(':id')
-  deleteBill(@Param() params: any) {
+  deleteCategory(@Param() params: any) {
     console.log(params);
   }
 

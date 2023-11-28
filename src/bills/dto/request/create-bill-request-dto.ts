@@ -7,12 +7,14 @@ export class CreateBillRequestDto {
     example: '1000',
     description: 'bill balance',
     required: false,
+    default: 0,
   })
   amount: number;
   @ApiProperty({
     example: 'a card with a salary',
     description: 'bill description',
     required: false,
+    default: '',
   })
   description: string;
 }

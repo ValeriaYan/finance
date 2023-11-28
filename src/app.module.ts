@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
-import { ObjectionModule, Model } from 'nestjs-objection';
+import { ObjectionModule } from 'nestjs-objection';
+import { Model } from 'objection';
 import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { BillsModule } from './bills/bills.module';
 import { CategoriesModule } from './categories/categories.module';
 import { OperationsModule } from './operations/operations.module';
+import { UsersBillsModule } from './users-bills/users-bills.module';
 
 @Module({
   imports: [
@@ -31,6 +33,7 @@ import { OperationsModule } from './operations/operations.module';
     BillsModule,
     CategoriesModule,
     OperationsModule,
+    UsersBillsModule,
   ],
   controllers: [],
   providers: [],
